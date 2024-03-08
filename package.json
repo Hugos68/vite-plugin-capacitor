@@ -1,0 +1,21 @@
+{
+	"name": "vite-plugin-capacitor",
+	"version": "0.0.1",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "tsc -w",
+		"build": "tsc"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"typescript": "^5.4.2",
+		"vite": "^5.1.5"
+	},
+	"type": "module",
+	"dependencies": {
+		"colorette": "^2.0.20"
+	}
+}
