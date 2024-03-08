@@ -1,6 +1,6 @@
-import type { PluginOption } from "vite";
-import { dev } from "./dev.js";
-import { CapacitorPluginConfig, setConfig } from "./config.js";
+import type { PluginOption } from 'vite';
+import { dev } from './dev.js';
+import { CapacitorPluginConfig, setConfig } from './config.js';
 
 function capacitor_plugin(config?: CapacitorPluginConfig): PluginOption {
 	setConfig(config);
