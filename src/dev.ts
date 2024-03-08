@@ -4,6 +4,8 @@ import ip from "ip";
 import { promises as fs } from "fs";
 import { exec, log } from "./util.js";
 import { detect, getCommand } from "@antfu/ni";
+import { parse } from "acorn";
+import { walk } from "estree-walker";
 
 export function dev(): PluginOption {
 	return {
@@ -98,15 +100,20 @@ async function edit_config(config: Config, url: string) {
 			);
 			break;
 		}
-		case "ts": {
-			throw new Error(
-				"Parsing TypeScript configuration files is not supported yet",
-			);
-		}
+		case "ts":
 		case "js": {
-			throw new Error(
-				"Parsing JavaScript configuration files is not supported yet",
-			);
+			const ast = parse(config.content, {
+				ecmaVersion: "latest",
+				sourceType: "module",
+			});
+
+			walk(ast, {
+				enter(node) {
+					console.log(node);
+				},
+			});
+
+			break;
 		}
 		default: {
 			throw new Error(
