@@ -1,6 +1,6 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
-export const config: CapacitorConfig = {
+const config: CapacitorConfig = {
 	appId: 'svelte.kit.capacitor',
 	appName: 'Sveltekit X Capacitor',
 	webDir: 'dist',
@@ -8,3 +8,5 @@ export const config: CapacitorConfig = {
 		androidScheme: 'https'
 	}
 };
+
+export default config;

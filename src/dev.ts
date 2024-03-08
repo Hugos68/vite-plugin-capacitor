@@ -4,8 +4,8 @@ import ip from "ip";
 import { promises as fs } from "fs";
 import { exec, log } from "./util.js";
 import { detect, getCommand } from "@antfu/ni";
-import { parse } from "acorn";
-import { walk } from "estree-walker";
+import { parse } from "@babel/parser";
+import traverse from "@babel/traverse";
 
 export function dev(): PluginOption {
 	return {
@@ -103,16 +103,18 @@ async function edit_config(config: Config, url: string) {
 		case "ts":
 		case "js": {
 			const ast = parse(config.content, {
-				ecmaVersion: "latest",
 				sourceType: "module",
+				plugins: ["typescript"],
 			});
+			console.log(ast);
 
-			walk(ast, {
-				enter(node) {
-					console.log(node);
+			traverse.default(ast, {
+				enter({ node }) {
+					if (node.name === "config") {
+						console.log(node);
+					}
 				},
 			});
-
 			break;
 		}
 		default: {
