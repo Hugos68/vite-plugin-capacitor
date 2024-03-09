@@ -77,6 +77,7 @@ async function edit_config(config: Config, url: string) {
 	switch (config.extension) {
 		case 'json': {
 			const parsed: CapacitorConfig = JSON.parse(config.content);
+			parsed.server ||= {};
 			parsed.server.url = url;
 			parsed.server.cleartext = true;
 			await fs.writeFile(config.filename, JSON.stringify(parsed, null, 2));
@@ -130,6 +131,7 @@ async function edit_config(config: Config, url: string) {
 						return;
 					}
 
+					// Remove the url and cleartext properties
 					server.value.properties = server.value.properties.filter(
 						(p) =>
 							!(
@@ -139,11 +141,10 @@ async function edit_config(config: Config, url: string) {
 							),
 					);
 
-					// If the url property is present but not in the correct format, remove it
+					// Add the url and cleartext properties
 					server.value.properties.push(
 						t.objectProperty(t.identifier('url'), t.stringLiteral(url)),
 					);
-
 					server.value.properties.push(
 						t.objectProperty(t.identifier('cleartext'), t.booleanLiteral(true)),
 					);
