@@ -5,7 +5,7 @@ import { promises as fs } from 'fs';
 import { exec, log } from './util.js';
 import { detect, getCommand } from '@antfu/ni';
 import { parse } from '@babel/parser';
-import traverse, { NodePath } from '@babel/traverse';
+import traverse from '@babel/traverse';
 import generate from '@babel/generator';
 import * as t from '@babel/types';
 
@@ -27,6 +27,15 @@ export function dev(): PluginOption {
 			const url = `${https ? 'https' : 'http'}://${host}:${port}`;
 			const config = await get_capacitor_config();
 			await edit_config(config, url);
+		},
+		async handleHotUpdate({ file, server }) {
+			if (
+				['capacitor.config.ts', 'capacitor.config.js', 'capacitor.config.json'].includes(
+					file.split('/').at(-1),
+				)
+			) {
+				await server.restart();
+			}
 		},
 	};
 }
